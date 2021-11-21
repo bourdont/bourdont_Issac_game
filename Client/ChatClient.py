@@ -1,10 +1,8 @@
-# This is the code I used for the ChatRoom Client
-
 import socket
 import threading
 
 class ChatClient:
-    def __init__(self, HOST: str = socket.gethostname(), PORT: int = 1234):
+    def __init__(self, HOST: str = socket.gethostname(), PORT: int = 5555):
         self.address = (HOST, PORT)
 
         self.connectToServer()
@@ -40,6 +38,8 @@ class ChatClient:
     # used for client to be sending chat messages
     def chat(self):
         while True:
+            print("Choose to send rock, paper, or scissors\n")
+            print("(type r, p, or s and then enter)\n")
             message = input()
             self.sendMessage(message)
             if message == "{quit}": break
