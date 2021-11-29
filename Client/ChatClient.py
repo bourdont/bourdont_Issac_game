@@ -4,17 +4,21 @@ import threading
 class ChatClient:
     def __init__(self, HOST: str = socket.gethostname(), PORT: int = 5555):
         self.address = (HOST, PORT)
-
+        print("first test")
         self.connectToServer()
+        print("second test")
         self.createRecievingThread()
+        print("third test")
         self.chat()
 
     def connectToServer(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect(self.address)
-
+        print("conn test")
+        self.sendMessage("test")
         self.recieveMessage()
-
+        print("conn test 2")
+    
         username = input()
         self.sendMessage(username)
 

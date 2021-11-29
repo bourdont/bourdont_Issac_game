@@ -33,7 +33,9 @@ class Server:
             thread.start()
 
     def handleConnection(self, client: socket.socket()):
-        username = self.checkLogin()
+        #username = self.checkLogin()
+        #Above commented out until login finished
+        username = "DEFAULT"
         self.clients[client] = {'username': username, 'room': 0}
 
     # check if users login information was correct, information stored in json. returns username
