@@ -6,24 +6,19 @@ import PySimpleGUI as sg
 class ChatClient:
     def __init__(self, HOST: str = socket.gethostname(), PORT: int = 5555):
         self.address = (HOST, PORT)
-        #self.connectToServer()
-        #self.createRecievingThread()
+        self.connectToServer()
+        self.createRecievingThread()
         self.chat()
 
     def connectToServer(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect(self.address)
-        print("conn test")
-        self.sendMessage("test")
         self.recieveMessage()
-        print("conn test 2")
-    
-        username = input()
-        self.sendMessage(username)
 
     def recieveMessage(self):
         message = self.socket.recv(1028).decode('utf-8')
-        print(message)
+        print("what")
+        return message
 
     def sendMessage(self, message: str):
         self.socket.send(message.encode('utf-8'))
@@ -40,27 +35,46 @@ class ChatClient:
 
     # used for client to be sending chat messages
     def chat(self):
-        window = homeInit()
+        window = loginInit()
         while True:
+            sendString = ""
             event, values = window.read()
-            if event == sg.WIN_CLOSED or event == 'Quit': # if user closes window or clicks cancel
-                break
-            if event == 'Enter':
-                print('You entered ', values[0])
-                #self.sendMessage(values[0])
-            if event == 'Next Page':
-                window = gameInit(window)
-                
+            sendString = eventsCheck(event, values)
+            if(sendString != ""):
+                self.sendMessage(sendString)
+                window = messageChecker(self.recieveMessage(), window)
             
 
 #gui code
-def homeInit():
+def messageChecker(message,window):
+    print("here?")
+    if(message[0:34] == "Which room would you like to join?"):
+        window = homeInit(window, message)
+    if(message[2:6] == "Wins"):
+        print("pop")
+        sg.Popup(message)
+    return window
+                
+def loginInit():
     sg.theme('DarkAmber')
-    layout = [  [sg.Text('Welcome to RPS')],
+    layout = [  [sg.Text('Welcome to RPS\nEnter your Username and Password to login\nOr click register')],
                 [sg.Text('Enter your Username: '), sg.InputText()],
-                [sg.Button('Enter'), sg.Button('Quit'), sg.Button('Next Page')] ]
+                [sg.Text('Enter your Password: '), sg.InputText()],
+                [sg.Button('Enter'), sg.Button('Quit'), sg.Button('Register')]]
+    
+    window = sg.Window('RPS Game', layout)
+    return window    
+
+
+def homeInit(window, text):
+    sg.theme('DarkAmber')
+    text = text.split("\n")
+    layout = [  [sg.Text("Current Rooms:\n" + text[1])],
+                [sg.Text('Enter the room you want to join: '), sg.InputText()],
+                [sg.Button('Stats'), sg.Button('Quit'), sg.Button('Join Room')] ]
 
     # Create the Window
+    window.close()
     window = sg.Window('RPS Game', layout)
     return window
 
@@ -74,6 +88,20 @@ def gameInit(window):
     window = sg.Window('RPS Game', layout)
     return window
 
+def eventsCheck(event, values):
+    sendString = ""
+    if event == 'Quit': # if user closes window or clicks cancel
+        #exit()
+        pass
+    if event == 'Enter':
+        sendString = "login " + values[0] + " " + values[1]
+    if event == 'Register':
+        window = regInit(window)
+    if event == 'Join Room':
+        sendString = values[0]
+    if event == 'Stats':
+        sendString = "{stats}"
+    return sendString
 
 if __name__ == '__main__':
     ChatClient()
