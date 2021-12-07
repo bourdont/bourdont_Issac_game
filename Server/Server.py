@@ -27,7 +27,7 @@ class Server:
 
     # create the multiple rooms a player can join
     def createRooms(self):
-        number_of_rooms = 2
+        number_of_rooms = 3
 
         for i in range(number_of_rooms):
             self.rooms[i+1] = {'players': [], 'moves': {}, 'currentPlayers': 0, 'maxPlayers': 2}
