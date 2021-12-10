@@ -1,29 +1,29 @@
 {
 "Chris": {
 "Password": "1234",
-"Wins": 3,
-"Losses": 6,
-"Ties": 1,
-"Total Games": 10
-},
-"test": {
-"Password": "1212",
-"Wins": 4,
-"Losses": 3,
-"Ties": 1,
-"Total Games": 8
+"Wins": 1,
+"Losses": 0,
+"Ties": 0,
+"Total Games": 1
 },
 "Tre": {
 "Password": "4321",
-"Wins": 2,
+"Wins": 0,
 "Losses": 1,
 "Ties": 0,
-"Total Games": 3
+"Total Games": 1
 },
-"test2": {
-"Password": "12345",
+"test": {
+"Password": "1212",
 "Wins": 1,
 "Losses": 0,
+"Ties": 0,
+"Total Games": 1
+},
+"test2": {
+"Password": "2121",
+"Wins": 0,
+"Losses": 1,
 "Ties": 0,
 "Total Games": 1
 }

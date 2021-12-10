@@ -13,7 +13,7 @@ Features of the application include:
 3. Account statistics tracking wins, loses, and other stats
 
 ## Demo Video 
-Make a short video to show how your network application works.
+https://youtu.be/oJrI2O0h3HA 
 
 ## Team members
 
