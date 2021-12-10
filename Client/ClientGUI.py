@@ -52,12 +52,16 @@ class ClientGUI:
         # room menu
         if (message[0:34] == "Which room would you like to join?"):
             self.homeInit(message)
+            
+        if(message[0:26] == 'Waiting for opponents move'):
+            gameResults(self, message)
 
         if (message[0:7] == "Joining"):
             if (message[24:31] == "Waiting"):
                 self.gameWaiting()
             else:
                 self.gameInit()
+        
 
         # multi menu
         if(message[2:6] == "Wins"):
@@ -95,6 +99,27 @@ class ClientGUI:
         self.window.close()
         self.window = sg.Window(self.gameTitle, layout)
 
+    #will handle messages by itself, due to many types of message
+    def gameResults(self, message):
+        sg.theme('DarkAmber')
+
+        #displays waiting for other player message
+        layout = [  [sg.Text(message)], [sg.Button('Back To Home')]]
+        # Create the Window
+        self.window.close()
+        self.window = sg.Window(self.gameTitle, layout)
+
+        #wait for results
+        response1 = self.recieveMessage()
+        response2 = self.recieveMessage()
+
+        #add results to GUI
+        layout = [  [sg.Text(response1)],[sg.Text(response2)],
+                    [sg.Button('Back To Home'),sg.Button('Rematch') ]]
+        # Create the Window
+        self.window.close()
+        self.window = sg.Window(self.gameTitle, layout)
+
 
     def gameWaiting(self):
         sg.theme('DarkAmber')
@@ -120,7 +145,7 @@ class ClientGUI:
         if event == 'Register':
             sendString = f"register {values[0]} {values[1]}"
 
-        # room menu
+        # message to send to server
         if event == 'Join Room':
             sendString = values[0]
 
@@ -130,8 +155,17 @@ class ClientGUI:
         if event == 'Reload':
             sendString = "{reload}"
 
-        if event == 'Leave':
+        if event == 'Leave' or event == 'Back To Home':
             sendString = "{leave}"
+
+        if event == 'Rock':
+            sendString = "r"
+
+        if event == 'Paper':
+            sendString = "p"
+
+        if event == 'Scissors':
+            sendString = "s"
 
         return sendString
 
